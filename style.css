@@ -12,18 +12,21 @@ body {
 }
 
 .header {
+  margin-top: 1rem;
   position: relative;
 }
 
 .main-text {
   text-align: center;
   font-size: 3rem;
-  margin: 1rem;
 }
 
 .who-is-player {
-  margin: auto;
-  max-width: 50%;
+  position: absolute;
+  bottom: 0;
+  left: 1rem;
+  display: inline-block;
+  max-width: 300px;
   background: #aaeeaa;
   color: #115511;
   padding: 12px 8px;
@@ -31,37 +34,31 @@ body {
 
 .reset-btn {
   position: absolute;
-  right: 5%;
-  top: 5%;
-  border: none;
+  display: inline-block;
+  bottom: 0;
+  right: 1rem;
+  border: solid 1px #ababab;
   padding: 8px 12px;
   cursor: pointer;
 }
 
 .content {
-  max-width: 768px;
-  margin:  2rem auto;
+  margin: 16px;
   display: flex;
   justify-content: center;
 }
 
 .grid {
-  max-width: 20rem;
-  max-height: 20rem;
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 6rem 6rem 6rem;
+  grid-template-rows: 6rem 6rem 6rem;
 }
 
 .box {
-  display: inline-block;
   border: solid 1px #ababab;
-  width: 6rem;
-  height: 6rem;
   cursor: pointer;
-}
-
-.row {
-  display: flex;
-  justify-content: space-around;
+  font-family: 'Consolas', menlo, monospace;
+  font-size: 4.2rem;
+  text-align: center;
+  user-select: none;
 }
