@@ -10,10 +10,16 @@ const play = (e) => {
   e.target.innerHTML = player ? 'X' : '0'
   // change the player
   player = player ? 0 : 1
-  $('#turn').innerHTML = `Player ${player} it's your turn. &curarr;`
+  // show the user about whom to play
+  $('#turn').innerHTML = player
 }
 
+const reset = (e) => {
+  $$('#hole').forEach( element => element.innerHTML = '' )
+}
 
 $$('#hole').forEach(element => {
   element.addEventListener('click', play)
 })
+
+$('#reset').addEventListener('click', reset)
