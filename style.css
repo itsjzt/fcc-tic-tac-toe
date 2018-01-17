@@ -1,0 +1,67 @@
+
+body {
+  font: 16px 'Roboto', sans-serif;
+  min-height: 100vh;
+  width: 100%;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  position: relative;
+}
+
+.main-text {
+  text-align: center;
+  font-size: 3rem;
+  margin: 1rem;
+}
+
+.who-is-player {
+  margin: auto;
+  max-width: 50%;
+  background: #aaeeaa;
+  color: #115511;
+  padding: 12px 8px;
+}
+
+.reset-btn {
+  position: absolute;
+  right: 5%;
+  top: 5%;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.content {
+  max-width: 768px;
+  margin:  2rem auto;
+  display: flex;
+  justify-content: center;
+}
+
+.grid {
+  max-width: 20rem;
+  max-height: 20rem;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.box {
+  display: inline-block;
+  border: solid 1px #ababab;
+  width: 6rem;
+  height: 6rem;
+  cursor: pointer;
+}
+
+.row {
+  display: flex;
+  justify-content: space-around;
+}
