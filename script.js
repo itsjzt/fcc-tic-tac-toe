@@ -9,13 +9,16 @@ const play = (e) => {
   // skip if the box is already filled
   if (e.target.innerHTML) return ;
   // skip if someone won
+  if (calculateWinner(board)) return ;
+
+  board[e.target.dataset.index] = player ? 'X' : '0'
+  e.target.innerHTML = player ? 'X' : '0'
+// if someone won after the move
   if (calculateWinner(board)) {
     render(null, calculateWinner(board))
     return;
   }
 
-  board[e.target.dataset.index] = player ? 'X' : '0'
-  e.target.innerHTML = player ? 'X' : '0'
   // change the player
   player = player ? 0 : 1
   // show the user about whom to play
