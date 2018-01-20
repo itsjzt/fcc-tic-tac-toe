@@ -1,42 +1,35 @@
+// OMG
 
-const $ = e => document.querySelector(e)
-const $$ = e => document.querySelectorAll(e)
+const state = {
+  zeroShouldPlay: true,
+  board: Array(9).fill(null),
+}
 
-let zeroShouldPlay = true
-const board = Array(9).fill(null)
-
-const play = (e) => {
-  const index = e.target.dataset.index
-  // skip if the box is already filled
-  if (board[index]) return ;
-  board[index] = zeroShouldPlay ? '0' : 'X'
+const play = (index) => {
+  // skip if the box is already filled or someone already won
+  if (calculateWinner(state.board) || state.board[index]) return ;
+  // what should I play ?
+  state.board[index] = state.zeroShouldPlay ? '0' : 'X'
+  // debug
+  console.log(state.board, state.zeroShouldPlay, calculateWinner(state.board))
   // change the player
-  zeroShouldPlay = !zeroShouldPlay
-  console.log(board, zeroShouldPlay)
-  render(board)
+  state.zeroShouldPlay = !state.zeroShouldPlay
+  // handle the DOM for me :)
+  render(state.board)
 }
 
+const render = (arr) => {
+  const $ = s => document.querySelector(s)
+  const $$ = s => document.querySelectorAll(s)
+  const playerName = state.zeroShouldPlay ? '0' : 'X';
 
-const render = (arr, mount = null, unmount = null) => {
-  if (mount) {
-    // clear
-    $$('#hole').forEach( element => element.innerHTML = '' )
-    // event listners
-    $$('#hole').forEach(element => { element.addEventListener('click', play) })
-    $('#reset').addEventListener('click', () => render(null, true))
-    return ;
-  }
-
-  if (unmount) {
-    $('#status').innerHTML = `Game won by ${calculateWinner(arr)}, Reset to play again`
-  }
-
+  // hell the dom
   $$('#hole').forEach( (element, index) => element.innerHTML = arr[index] )
-// calculate the winner after play
-  if (calculateWinner(arr)) render(arr, null, true)
+  $('#status').innerHTML = `Player ${playerName} should play!`
+  // finally give up if someone won
+  if (calculateWinner(state.board))  $('#status').innerHTML = `player ${calculateWinner(state.board)} Won!`
 }
 
-// winning algo
 const calculateWinner = (squares) => {
   const lines = [
     [0, 1, 2],
@@ -58,5 +51,8 @@ const calculateWinner = (squares) => {
 }
 
 
-// call init for adding event listeners
-render(null, true)
+document.querySelectorAll('#hole')
+.forEach(element => { element.addEventListener('click', (e) => play(e.target.dataset.index)) })
+
+document.querySelector('#reset')
+.addEventListener('click', () => render(Array(9).fill(null)))
