@@ -2,29 +2,41 @@
 const $ = e => document.querySelector(e)
 const $$ = e => document.querySelectorAll(e)
 
-let player = 0
+let zeroShouldPlay = true
 const board = Array(9).fill(null)
 
 const play = (e) => {
+  const index = e.target.dataset.index
   // skip if the box is already filled
-  if (e.target.innerHTML) return ;
-  // skip if someone won
-  if (calculateWinner(board)) return ;
-
-  board[e.target.dataset.index] = player ? 'X' : '0'
-  e.target.innerHTML = player ? 'X' : '0'
-// if someone won after the move
-  if (calculateWinner(board)) {
-    render(null, calculateWinner(board))
-    return;
-  }
-
+  if (board[index]) return ;
+  board[index] = zeroShouldPlay ? '0' : 'X'
   // change the player
-  player = player ? 0 : 1
-  // show the user about whom to play
-  $('#status').innerHTML = `player ${player} its your turn.`
+  zeroShouldPlay = !zeroShouldPlay
+  console.log(board, zeroShouldPlay)
+  render(board)
 }
 
+
+const render = (arr, mount = null, unmount = null) => {
+  if (mount) {
+    // clear
+    $$('#hole').forEach( element => element.innerHTML = '' )
+    // event listners
+    $$('#hole').forEach(element => { element.addEventListener('click', play) })
+    $('#reset').addEventListener('click', () => render(null, true))
+    return ;
+  }
+
+  if (unmount) {
+    $('#status').innerHTML = `Game won by ${calculateWinner(arr)}, Reset to play again`
+  }
+
+  $$('#hole').forEach( (element, index) => element.innerHTML = arr[index] )
+// calculate the winner after play
+  if (calculateWinner(arr)) render(arr, null, true)
+}
+
+// winning algo
 const calculateWinner = (squares) => {
   const lines = [
     [0, 1, 2],
@@ -45,22 +57,6 @@ const calculateWinner = (squares) => {
   return null;
 }
 
-const render = (arr, winner = null, reset = null) => {
-  if (winner) {
-    $('#status').innerHTML = `player ${winner} won`
-    return ;
-  }
 
-  else if (reset) {
-    $$('#hole').forEach( element => element.innerHTML = '' )
-    return ;
-  }
-
-
-}
-
-$$('#hole').forEach(element => {
-  element.addEventListener('click', play)
-})
-
-$('#reset').addEventListener('click', reset)
+// call init for adding event listeners
+render(null, true)
