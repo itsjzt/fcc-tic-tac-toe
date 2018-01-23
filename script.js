@@ -24,7 +24,7 @@ const render = (arr) => {
   const playerName = state.zeroShouldPlay ? '0' : 'X';
 
   // hell the dom
-  $$('#hole').forEach( (element, index) => element.innerHTML = arr[index] )
+  $$('#hole').forEach( (element, index) => element.innerHTML = arr[index] || '' )
   $('#status').innerHTML = `Player ${playerName} should play!`
   // finally give up if someone won
   if (calculateWinner(state.board))  $('#status').innerHTML = `player ${calculateWinner(state.board)} Won!`
