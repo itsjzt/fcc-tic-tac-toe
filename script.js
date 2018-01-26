@@ -75,10 +75,11 @@ document.querySelectorAll('#hole')
 document.querySelector('#reset')
 .addEventListener('click', (e) => {
   render(Array(9).fill(null))
+  state.board.fill(null)
   e.target.classList.remove('primary')
 })
 
-const modal = document.querySelector('.modal')
+const modal = document.querySelector('.modal-wrapper')
 // do nothing
 document.querySelector('#playAs0')
 .addEventListener('click',
