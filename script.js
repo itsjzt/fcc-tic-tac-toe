@@ -5,6 +5,13 @@ const state = {
   board: Array(9).fill(null),
 }
 
+// take the event and be a HOC for all functions
+const main = (e) => {
+  const index = e.target.dataset.index
+  play(index)
+  playForMe(state.board)
+}
+
 const play = (index) => {
   // skip if the box is already filled or someone already won
   if (calculateWinner(state.board) || state.board[index]) return ;
@@ -18,6 +25,13 @@ const play = (index) => {
   render(state.board)
 }
 
+const playForMe = (boardConfig) => {
+  const playAt = Math.floor(Math.random() * 9)
+  if ( boardConfig[playAt] === null )
+    return play(playAt)
+  return playForMe(boardConfig)
+}
+
 const render = (arr) => {
   const $ = s => document.querySelector(s)
   const $$ = s => document.querySelectorAll(s)
@@ -27,7 +41,10 @@ const render = (arr) => {
   $$('#hole').forEach( (element, index) => element.innerHTML = arr[index] || '' )
   $('#status').innerHTML = `Player ${playerName} should play!`
   // finally give up if someone won
-  if (calculateWinner(state.board))  $('#status').innerHTML = `player ${calculateWinner(state.board)} Won!`
+  if (calculateWinner(state.board))  {
+    $('#status').innerHTML = `player ${calculateWinner(state.board)} Won!`
+    $('#reset').classList.add('primary')
+  }
 }
 
 const calculateWinner = (squares) => {
@@ -51,8 +68,28 @@ const calculateWinner = (squares) => {
 }
 
 
+// heck event listners
 document.querySelectorAll('#hole')
-.forEach(element => { element.addEventListener('click', (e) => play(e.target.dataset.index)) })
+.forEach(element => { element.addEventListener('click', main) })
 
 document.querySelector('#reset')
-.addEventListener('click', () => render(Array(9).fill(null)))
+.addEventListener('click', (e) => {
+  render(Array(9).fill(null))
+  e.target.classList.remove('primary')
+})
+
+const modal = document.querySelector('.modal')
+// do nothing
+document.querySelector('#playAs0')
+.addEventListener('click',
+(e) => {
+  modal.classList.add('none')
+})
+
+// change state
+document.querySelector('#playAsX')
+  .addEventListener('click',
+  (e) => {
+    modal.classList.add('none')
+    state.zeroShouldPlay = !state.zeroShouldPlay
+})
